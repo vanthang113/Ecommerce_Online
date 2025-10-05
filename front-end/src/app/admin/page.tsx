@@ -6,15 +6,11 @@ import useAuth from "@/hooks/useAuth";
 
 export default function AdminPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  useAuth();
 
   useEffect(() => {
-    if (!user || user?.role !== "admin") {
-      router.replace("/admin/login");
-    } else {
-      router.replace("/admin/dashboard");
-    }
-  }, [user, router]);
+    router.replace("/admin/login");
+  }, [router]);
 
   return null;
 }

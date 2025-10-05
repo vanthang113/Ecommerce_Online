@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { loginAdmin } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import { isAdminTokenValid } from "@/lib/adminAuth";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -15,15 +16,19 @@ export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Không tự động rời khỏi trang login, chỉ dọn dẹp token cũ nếu có
   useEffect(() => {
-    // Nếu đã đăng nhập admin thì chuyển sang /admin
-    try {
-      const adminUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("adminUser") || "null") : null;
-      if (adminUser?.role === "admin") {
-        router.replace("/admin");
-      }
-    } catch {}
-  }, [router]);
+    (async () => {
+      try {
+        const valid = await isAdminTokenValid();
+        if (!valid) {
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminUser");
+          window.dispatchEvent(new Event("adminAuthChange"));
+        }
+      } catch {}
+    })();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

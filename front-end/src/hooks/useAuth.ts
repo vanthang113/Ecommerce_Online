@@ -13,7 +13,8 @@ export default function useAuth() {
 
     // Lắng nghe sự kiện login/logout
     const handleAuthChange = () => {
-      setUser(getUser());
+      const onAdminPath = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+      setUser(onAdminPath ? getAdminUser() : getUser());
     };
 
     window.addEventListener("authChange", handleAuthChange);

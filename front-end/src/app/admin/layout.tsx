@@ -9,11 +9,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
   const [adminUser, setAdminUser] = useState<any>(null);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     try {
       const data = localStorage.getItem("adminUser");
       setAdminUser(data ? JSON.parse(data) : null);
@@ -29,6 +28,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       }
     };
     window.addEventListener("adminAuthChange", onChange);
+    setInitialized(true);
     return () => window.removeEventListener("adminAuthChange", onChange);
   }, []);
 
@@ -40,20 +40,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
     
     // Nếu chưa đăng nhập hoặc không phải admin -> chuyển hướng login riêng của admin
-    if (mounted && (!effectiveUser || effectiveUser?.role !== "admin")) {
+    if (initialized && (!effectiveUser || effectiveUser?.role !== "admin")) {
       if (typeof window !== "undefined") {
         sessionStorage.setItem("redirectAfterLogin", pathname || "/admin");
       }
       router.replace("/admin/login");
     }
-  }, [mounted, effectiveUser, router, pathname]);
+  }, [initialized, effectiveUser, router, pathname]);
+
+  // Không revalidate token trên mỗi trang admin để tránh buộc đăng nhập lại
 
   // Nếu đang ở trang login thì render children trực tiếp (không sidebar)
   if (pathname === "/admin/login") {
     return <>{children}</>;
   }
 
-  if (!mounted) {
+  if (!initialized) {
     return null;
   }
 
