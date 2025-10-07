@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [adminUser, setAdminUser] = useState<any>(null);
   const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => {  
     try {
       const data = localStorage.getItem("adminUser");
       setAdminUser(data ? JSON.parse(data) : null);
