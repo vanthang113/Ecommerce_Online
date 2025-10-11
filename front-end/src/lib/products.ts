@@ -1,7 +1,8 @@
 import fetchAPI from "./api";
 
-export async function getProducts() {
-  return fetchAPI("/products", { method: "GET" });
+export async function getProducts(queryParams?: string) {
+  const url = queryParams ? `/products?${queryParams}` : "/products";
+  return fetchAPI(url, { method: "GET" });
 }
 
 export async function getProductById(id: string) {
