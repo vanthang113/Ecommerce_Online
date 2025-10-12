@@ -61,6 +61,23 @@ export const listReviewsAdmin = async (_req: Request, res: Response) => {
   }
 };
 
+export const getReviewsByProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const [rows]: any = await pool.query(
+      `SELECT r.*, u.name as user_name
+       FROM reviews r
+       JOIN users u ON u.id = r.user_id
+       WHERE r.product_id = ?
+       ORDER BY r.created_at DESC`,
+      [productId]
+    );
+    res.json(rows);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 export const deleteReviewAdmin = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
