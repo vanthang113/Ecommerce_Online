@@ -18,5 +18,3 @@ COPY package*.json ./
 COPY --from=build /app/dist ./dist
 EXPOSE 5000
 CMD ["node", "dist/app.js"]
-
-

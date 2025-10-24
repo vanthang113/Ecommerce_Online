@@ -24,5 +24,3 @@ COPY --from=builder /app/next-env.d.ts ./next-env.d.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 USER nextjs
 CMD ["node", "node_modules/next/dist/bin/next", "start", "-p", "3000"]
-
-
