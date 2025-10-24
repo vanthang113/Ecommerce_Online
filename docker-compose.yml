@@ -1,3 +1,4 @@
+# hiện tại đang lỗi tôi sẽ sửa lại sau 
 version: "3.9"
 services:
   db:
