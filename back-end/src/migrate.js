@@ -8,7 +8,7 @@ async function migrateImagesColumn() {
     connection = await mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '',
+      password: '12345',
       database: 'ecommerce_db'
     });
 

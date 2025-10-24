@@ -22,5 +22,10 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/next-env.d.ts ./next-env.d.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
+## Ensure Next.js runtime can write to the image cache directories.
+# Create the cache dir and set ownership to the non-root `nextjs` user
+# before switching to that user so `next start` won't fail with EACCES.
+RUN mkdir -p /app/.next/cache/images \
+	&& chown -R nextjs:nodejs /app/.next /app/node_modules /app/public || true
 USER nextjs
 CMD ["node", "node_modules/next/dist/bin/next", "start", "-p", "3000"]
