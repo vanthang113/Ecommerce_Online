@@ -2,8 +2,7 @@
 "use client";
 
 import { getCart, clearCart } from "./cart";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+import { API_URL } from "./api";
 
 export async function createOrder(
   token: string,

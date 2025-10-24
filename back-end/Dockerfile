@@ -17,6 +17,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY package*.json ./
 COPY --from=build /app/dist ./dist
 EXPOSE 5000
+ENV HOST=0.0.0.0
 CMD ["node", "dist/app.js"]
 
 

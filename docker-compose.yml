@@ -42,8 +42,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      # Frontend calls the backend via the host (browser context)
+      # Frontend calls the backend:
+      # - In the browser: use host-mapped port
+      # - On the server (SSR): use internal Docker network service name
       NEXT_PUBLIC_API_URL: http://localhost:5000/api
+      INTERNAL_API_URL: http://back-end:5000/api
     ports:
       - "3000:3000"
 
