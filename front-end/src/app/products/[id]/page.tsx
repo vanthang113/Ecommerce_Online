@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
     <div className="max-w-7xl mx-auto p-4">
       {/* Breadcrumb */}
       <nav className="text-sm text-gray-500 mb-4">
-        <span>Shopee</span> &gt; <span>Điện Thoại & Phụ Kiện</span> &gt; <span>Điện thoại</span> &gt; <span>{product.name}</span>
+        <span>MyShop</span> &gt; <span>Điện Thoại & Phụ Kiện</span> &gt; <span>Điện thoại</span> &gt; <span>{product.name}</span>
       </nav>
 
       {/* Main Product Section */}
@@ -241,7 +241,7 @@ export default function ProductDetailPage() {
               <span className="font-medium">Vận Chuyển</span>
             </div>
             <p className="text-sm text-gray-600">
-              Nhận từ 13 Th10 - 16 Th10, phí giao 0₫
+              giao hàng nhanh nhất trong 5 ngày, phí giao 0₫
             </p>
             <p className="text-sm text-green-600 mt-1">
               Tặng Voucher 15.000₫ nếu đơn giao sau thời gian trên.
