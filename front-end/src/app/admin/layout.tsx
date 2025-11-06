@@ -1,9 +1,10 @@
-// app/admin/layout.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import useAuth from "@/hooks/useAuth";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { FaHome, FaTags, FaBoxOpen, FaShoppingCart, FaUsers, FaStar, FaChartBar, FaTools,} from "react-icons/fa";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [adminUser, setAdminUser] = useState<any>(null);
   const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {  
+  useEffect(() => {
     try {
       const data = localStorage.getItem("adminUser");
       setAdminUser(data ? JSON.parse(data) : null);
@@ -33,13 +34,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, []);
 
   const effectiveUser = user || adminUser;
+
   useEffect(() => {
-    // Nếu đang ở trang login thì không cần kiểm tra auth
-    if (pathname === "/admin/login") {
-      return;
-    }
-    
-    // Nếu chưa đăng nhập hoặc không phải admin -> chuyển hướng login riêng của admin
+    if (pathname === "/admin/login") return;
+
     if (initialized && (!effectiveUser || effectiveUser?.role !== "admin")) {
       if (typeof window !== "undefined") {
         sessionStorage.setItem("redirectAfterLogin", pathname || "/admin");
@@ -48,40 +46,54 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [initialized, effectiveUser, router, pathname]);
 
-  // Không revalidate token trên mỗi trang admin để tránh buộc đăng nhập lại
+  if (pathname === "/admin/login") return <>{children}</>;
+  if (!initialized) return null;
+  if (!effectiveUser || effectiveUser?.role !== "admin") return null;
 
-  // Nếu đang ở trang login thì render children trực tiếp (không sidebar)
-  if (pathname === "/admin/login") {
-    return <>{children}</>;
-  }
-
-  if (!initialized) {
-    return null;
-  }
-
-  if (!effectiveUser || effectiveUser?.role !== "admin") {
-    return null;
-  }
+  const menuItems = [
+    { label: "Dashboard", icon: <FaHome />, href: "/admin/dashboard" },
+    { label: "Categories", icon: <FaTags />, href: "/admin/categories" },
+    { label: "Products", icon: <FaBoxOpen />, href: "/admin/products" },
+    { label: "Orders", icon: <FaShoppingCart />, href: "/admin/orders" },
+    { label: "Users", icon: <FaUsers />, href: "/admin/users" },
+    { label: "Reviews", icon: <FaStar />, href: "/admin/reviews" },
+    { label: "Charts", icon: <FaChartBar />, href: "/admin/charts" },
+    { label: "Test Tools", icon: <FaTools />, href: "/admin/test-tools" },
+  ];
 
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar admin */}
-      <aside className="w-64 bg-gray-800 text-white p-6 space-y-4">
-        <h2 className="text-xl font-bold mb-6">Admin Panel</h2>
-        <nav className="space-y-2">
-          <a href="/admin/dashboard" className="block hover:bg-gray-700 p-2 rounded">🏠 Dashboard</a>
-          <a href="/admin/categories" className="block hover:bg-gray-700 p-2 rounded">📂 Categories</a>
-          <a href="/admin/products" className="block hover:bg-gray-700 p-2 rounded">📦 Products</a>
-          <a href="/admin/orders" className="block hover:bg-gray-700 p-2 rounded">🛒 Orders</a>
-          <a href="/admin/users" className="block hover:bg-gray-700 p-2 rounded">👤 Users</a>
-          <a href="/admin/reviews" className="block hover:bg-gray-700 p-2 rounded">⭐ Reviews</a>
-          <a href="/admin/charts" className="block hover:bg-gray-700 p-2 rounded">📈 Charts</a>
-          <a href="/admin/test-tools" className="block hover:bg-gray-700 p-2 rounded">🧪 Test Tools</a>
+    <div className="flex min-h-screen bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-gray-900 text-gray-200 p-6 flex flex-col shadow-xl">
+        <h2 className="text-2xl font-bold mb-10 text-center tracking-wide">
+          Admin <span className="text-blue-400">Panel</span>
+        </h2>
+
+        <nav className="flex-1 space-y-2">
+          {menuItems.map((item) => {
+            const isActive = pathname.startsWith(item.href);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200
+                ${isActive ? "bg-gray-800 text-white" : "hover:bg-gray-800 hover:text-white text-gray-300"}
+                `}
+              >
+                <span className="text-lg">{item.icon}</span>
+                <span className="text-sm font-medium">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
+
+        <div className="text-xs text-gray-500 pt-6 border-t border-gray-700 text-center">
+          © 2025 Admin System
+        </div>
       </aside>
 
       {/* Nội dung chính */}
-      <main className="flex-1 p-8 bg-gray-100">{children}</main>
+      <main className="flex-1 p-8">{children}</main>
     </div>
   );
 }

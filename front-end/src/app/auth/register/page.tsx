@@ -136,7 +136,7 @@ export default function RegisterPage() {
       {/* Banner bên trái */}
       <div className="hidden md:flex flex-1 items-center justify-center">
         <img
-          src="/products/loginpage.jpg"
+          src="/account/final-sale-banner.png"
           className="max-h-[90%] object-contain"
         />
       </div>

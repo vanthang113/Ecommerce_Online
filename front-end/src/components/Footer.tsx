@@ -1,7 +1,12 @@
+"use client";
 export default function Footer() {
+  const payments = ["visa", "mastercard", "momo", "zalopay", "vnpay"];
+  const shippings = ["ghn", "ghtk", "ahamove", "vnpost"];
+
   return (
     <footer className="bg-gray-100 text-gray-700 text-sm mt-10 border-t">
       <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+        
         {/* DỊCH VỤ KHÁCH HÀNG */}
         <div>
           <h3 className="font-semibold mb-3 text-gray-800">DỊCH VỤ KHÁCH HÀNG</h3>
@@ -36,22 +41,30 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* THANH TOÁN & VẬN CHUYỂN */}
+        {/* THANH TOÁN + VẬN CHUYỂN */}
         <div>
           <h3 className="font-semibold mb-3 text-gray-800">THANH TOÁN</h3>
           <div className="flex flex-wrap gap-2 mb-4">
-            <div className="bg-white border rounded px-3 py-1">Visa</div>
-            <div className="bg-white border rounded px-3 py-1">MasterCard</div>
-            <div className="bg-white border rounded px-3 py-1">Momo</div>
-            <div className="bg-white border rounded px-3 py-1">ZaloPay</div>
+            {payments.map((item) => (
+              <img
+                key={item}
+                src={`/footer/${item}.png`}
+                alt={item}
+                className="w-[50px] h-[50px] object-contain bg-[#f5f5f5] p-2 rounded hover:scale-110 hover:brightness-110 transition-all"
+              />
+            ))}
           </div>
 
           <h3 className="font-semibold mb-3 text-gray-800">ĐƠN VỊ VẬN CHUYỂN</h3>
           <div className="flex flex-wrap gap-2">
-            <div className="bg-white border rounded px-3 py-1">VNPost</div>
-            <div className="bg-white border rounded px-3 py-1">GHN</div>
-            <div className="bg-white border rounded px-3 py-1">GHTK</div>
-            <div className="bg-white border rounded px-3 py-1">Ahamove</div>
+            {shippings.map((item) => (
+              <img
+                key={item}
+                src={`/footer/${item}.png`}
+                alt={item}
+                className="w-[50px] h-[50px] object-contain bg-[#f5f5f5] p-2 rounded hover:scale-110 hover:brightness-110 transition-all"
+              />
+            ))}
           </div>
         </div>
 
@@ -64,9 +77,7 @@ export default function Footer() {
             <li>LinkedIn</li>
           </ul>
 
-          <h3 className="font-semibold mt-6 mb-3 text-gray-800">
-            TẢI ỨNG DỤNG MYSHOP
-          </h3>
+          <h3 className="font-semibold mt-6 mb-3 text-gray-800">TẢI ỨNG DỤNG MYSHOP</h3>
           <div className="flex flex-col gap-2">
             <div className="bg-white border rounded px-3 py-1">App Store</div>
             <div className="bg-white border rounded px-3 py-1">Google Play</div>
@@ -78,23 +89,15 @@ export default function Footer() {
       {/* PHẦN BOTTOM */}
       <div className="border-t mt-6 py-6 text-center text-xs text-gray-500">
         <p>© 2025 MyShop. Quyền của Nguyễn Văn Thắng.</p>
-        <p>
-          Quốc gia & Khu vực: Việt Nam 
-        </p>
+        <p>Quốc gia & Khu vực: Việt Nam</p>
+
         <div className="flex justify-center gap-8 mt-3">
-          <a href="#" className="hover:underline">
-            Chính Sách Bảo Mật
-          </a>
-          <a href="#" className="hover:underline">
-            Quy Chế Hoạt Động
-          </a>
-          <a href="#" className="hover:underline">
-            Chính Sách Vận Chuyển
-          </a>
-          <a href="#" className="hover:underline">
-            Chính Sách Trả Hàng Và Hoàn Tiền
-          </a>
+          <a href="#" className="hover:underline">Chính Sách Bảo Mật</a>
+          <a href="#" className="hover:underline">Quy Chế Hoạt Động</a>
+          <a href="#" className="hover:underline">Chính Sách Vận Chuyển</a>
+          <a href="#" className="hover:underline">Chính Sách Trả Hàng Và Hoàn Tiền</a>
         </div>
+
         <p className="mt-3">Công ty TNHH MyShop - Mã số thuế: 0862421003</p>
       </div>
     </footer>
