@@ -12,7 +12,7 @@ export const isAdminTokenValid = async (): Promise<boolean> => {
     const token = localStorage.getItem("adminToken");
     if (!token) return false;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://ecommerce-online-8r1c.onrender.com/api"}/users`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api"}/users`, {
       headers: { "Authorization": `Bearer ${token}` }
     });
 
